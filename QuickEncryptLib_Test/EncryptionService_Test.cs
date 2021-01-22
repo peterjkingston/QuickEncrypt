@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QuickEncrypt.Encryption;
 using System;
+using System.IO;
 
 namespace QuickEncryptLib_Test
 {
@@ -8,43 +9,60 @@ namespace QuickEncryptLib_Test
 	public class EncryptionService_Test
 	{
 		const string KEY_TEST_PATH = @".\";
-		EncryptionService _encryptionService = new EncryptionService(KEY_TEST_PATH);
 
 		[TestMethod]
 		public void WritesKey_WhenNoKeyFound()
 		{
 			//Arrange
-			
+			string folderPath = @".\TempKey";
+			if (!Directory.Exists(folderPath)) { Directory.CreateDirectory(folderPath); }
+			EncryptionService encryptionService = new EncryptionService(folderPath);
+			bool actual = false;
+			bool expected = true;
 
 			//Act
+			actual = File.Exists(Path.Combine(@".\TempKey", "MyQuickEncryptKey.dat")) &&
+					 File.Exists(Path.Combine(@".\TempKey", "MyQuickEncryptVector.dat"));
+			foreach(string fileName in Directory.GetFiles(folderPath))
+			{
+				File.Delete(fileName);
+			}
+			Directory.Delete(folderPath);
 
 			//Assert
-			throw new Exception();
+			Assert.AreEqual(expected, actual);
 		}
 
 		[TestMethod]
 		public void IsEncrypted_False_WhenPlainText()
 		{
 			//Arrange
-
+			File.WriteAllText(@".\TestFile", "Oooogabooga!");
+			EncryptionService encryptionService = new EncryptionService(KEY_TEST_PATH);
+			bool expected = false;
 
 			//Act
+			bool actual = encryptionService.IsEncrypted(@".\TestFile");
 
 			//Assert
-			throw new Exception();
+			Assert.AreEqual(expected, actual);
 		}
 
 
 		[TestMethod]
-		public void IsEncrypted_False_WhenNotPlainText()
+		public void IsEncrypted_True_WhenExplicitlyEncrypted()
 		{
 			//Arrange
-
+			File.WriteAllText(@".\TestFile2", "Oooogabooga!");
+			EncryptionService encryptionService = new EncryptionService(KEY_TEST_PATH);
+			encryptionService.EncryptFile(@".\TestFile2");
+			bool expected = true;
 
 			//Act
+			bool actual = encryptionService.IsEncrypted(@".\TestFile2");
 
 			//Assert
-			throw new Exception();
+			Assert.AreEqual(expected, actual);
 		}
 	}
 }
