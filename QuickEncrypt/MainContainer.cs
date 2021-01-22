@@ -40,7 +40,7 @@ namespace QuickEncrypt
 		{
 			Action<string> transform = GetTransformMode(cryptoMode);
 
-			if (File.Exists(filePath) && !_encryptionService.IsEncrypted(filePath)) 
+			if (File.Exists(filePath) && !_encryptionService.IsNotPlainText(filePath)) 
 			{ 
 				transform(filePath); 
 			}			

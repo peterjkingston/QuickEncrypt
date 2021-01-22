@@ -72,9 +72,9 @@ namespace QuickEncrypt.Encryption
 
 		public void EncryptFile(string filePath)
 		{
-			if (!IsEncrypted(filePath))
+			if (!IsNotPlainText(filePath))
 			{
-				ICryptoTransform encryptor = _cryptoProvider.CreateEncryptor();
+				ICryptoTransform encryptor = _cryptoProvider.CreateEncryptor(_cryptoProvider.Key, _cryptoProvider.IV);
 				using (MemoryStream ms = new MemoryStream())
 				{
 					using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
@@ -89,28 +89,28 @@ namespace QuickEncrypt.Encryption
 			}
 		}
 
-		public bool IsEncrypted(string filePath)
+		public bool IsNotPlainText(string filePath)
 		{
-			//Returns true if at least half the characters in the file are a letter or a number.
+			//Returns true if at least a fifth the characters in the file are a letter or a number.
 			string fileContent = File.ReadAllText(filePath);
 			long validCount = 0;
 			foreach (char character in fileContent)
 			{
 				if(
 					char.IsWhiteSpace(character) ||
-					char.IsLetterOrDigit(character) 
+					char.IsLetter(character) 
 				)
 				{
 					validCount++;
 				}
 			}
 
-			return validCount > fileContent.Length / 2;
+			return validCount < (fileContent.Length / 2);
 		}
 
 		public void DecryptFile(string filePath)
 		{
-			if (!IsEncrypted(filePath))
+			if (!IsNotPlainText(filePath))
 			{
 				ICryptoTransform encryptor = _cryptoProvider.CreateDecryptor();
 				using (MemoryStream ms = new MemoryStream())
