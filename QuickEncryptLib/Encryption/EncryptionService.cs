@@ -12,33 +12,38 @@ namespace QuickEncrypt.Encryption
 	public class EncryptionService : IEncryptionService
 	{
 		AesManaged _cryptoProvider = new AesManaged();
-		static string _quickEncryptFolder = Path.Combine(new string[]
-			{
-				Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-				"QuickEncrypt"
-			}
-		);
+		string _quickEncryptFolder { get; }
 
-		static string _keyFilePath = Path.Combine(new string[]
-			{
-				_quickEncryptFolder,
-				"MyQuickEncryptKey.dat"
-			}
-		);
+		string _keyFilePath { get; }
 
-		static string _IVFilePath = Path.Combine(new string[]
-			{
-				_quickEncryptFolder,
-				"MyQuickEncryptVector.dat"
-			}
-		);
+		string _IVFilePath { get; }
 
 		public EncryptionService()
 		{
+			_quickEncryptFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "QuickEncrypt");
+			_keyFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptKey.dat");
+			_IVFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptVector.dat");
+
 			//Create a key if necessary
 			if (!File.Exists(_keyFilePath))
 			{
 				PublishKey(); 
+			}
+
+			//Load the key
+			LoadKey();
+		}
+
+		public EncryptionService(string keyPath)
+		{
+			_quickEncryptFolder = keyPath;
+			_keyFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptKey.dat");
+			_IVFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptVector.dat");
+
+			//Create a key if necessary
+			if (!File.Exists(_keyFilePath))
+			{
+				PublishKey();
 			}
 
 			//Load the key
