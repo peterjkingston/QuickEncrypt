@@ -105,7 +105,21 @@ namespace QuickEncrypt.Encryption
 
 		public void DecryptFile(string filePath)
 		{
-			throw new NotImplementedException();
+			if (!IsEncrypted(filePath))
+			{
+				ICryptoTransform encryptor = _cryptoProvider.CreateDecryptor();
+				using (MemoryStream ms = new MemoryStream())
+				{
+					using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+					{
+						using (StreamWriter swEncrypt = new StreamWriter(cs))
+						{
+							swEncrypt.Write(File.ReadAllText(filePath));
+						}
+						File.WriteAllBytes(filePath, ms.ToArray());
+					}
+				}
+			}
 		}
 
 		public Action<string> PrintFile(string filePath, IConsolePrinter consolePrinter)
