@@ -110,21 +110,28 @@ namespace QuickEncrypt.Encryption
 
 		public void DecryptFile(string filePath)
 		{
-			if (!IsNotPlainText(filePath))
+			if (IsNotPlainText(filePath))
 			{
-				ICryptoTransform encryptor = _cryptoProvider.CreateDecryptor();
-				using (MemoryStream ms = new MemoryStream())
+				byte[] decrypted = Decrypt(File.ReadAllBytes(filePath));
+				File.WriteAllBytes(filePath, decrypted);
+			}
+		}
+
+		private byte[] Decrypt(byte[] buffer)
+		{
+			byte[] decrypted;
+			ICryptoTransform decryptor = _cryptoProvider.CreateDecryptor(_cryptoProvider.Key, _cryptoProvider.IV);
+			using (MemoryStream ms = new MemoryStream(buffer))
+			{
+				using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
 				{
-					using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+					using (StreamReader swDecrypt = new StreamReader(cs))
 					{
-						using (StreamWriter swEncrypt = new StreamWriter(cs))
-						{
-							swEncrypt.Write(File.ReadAllText(filePath));
-						}
-						File.WriteAllBytes(filePath, ms.ToArray());
+						decrypted = Encoding.ASCII.GetBytes(swDecrypt.ReadToEnd());
 					}
 				}
 			}
+			return decrypted;
 		}
 
 		public Action<string> PrintFile(string filePath, IConsolePrinter consolePrinter)
