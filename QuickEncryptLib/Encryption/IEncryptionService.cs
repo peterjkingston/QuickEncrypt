@@ -8,6 +8,6 @@ namespace QuickEncrypt.Encryption
 		void EncryptFile(string filePath);
 		bool IsNotPlainText(string filePath);
 		void DecryptFile(string filePath);
-		Action<string> PrintFile(string filePath, IConsolePrinter consolePrinter);
+		void PrintFile(string filePath, IConsolePrinter consolePrinter);
 	}
 }

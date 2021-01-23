@@ -134,9 +134,10 @@ namespace QuickEncrypt.Encryption
 			return decrypted;
 		}
 
-		public Action<string> PrintFile(string filePath, IConsolePrinter consolePrinter)
+		public void PrintFile(string filePath, IConsolePrinter consolePrinter)
 		{
-			throw new NotImplementedException();
+			byte[] decrypted = Decrypt(File.ReadAllBytes(filePath));
+			consolePrinter.Print(Encoding.ASCII.GetString(decrypted));
 		}
 	}
 }

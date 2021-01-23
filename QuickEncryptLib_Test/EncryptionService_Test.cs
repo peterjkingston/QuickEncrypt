@@ -99,5 +99,25 @@ namespace QuickEncryptLib_Test
 			//Assert
 			Assert.AreEqual(expected, actual);
 		}
+
+		[TestMethod]
+		public void EncryptFile_DoesntStack()
+		{
+			//Arrange
+			string testContent = "Oooogabooga!";
+			File.WriteAllText(@".\EncryptFile_DoesntStack", testContent);
+			EncryptionService encryptionService = new EncryptionService(KEY_TEST_PATH);
+			encryptionService.EncryptFile(@".\EncryptFile_DoesntStack");
+			encryptionService.EncryptFile(@".\EncryptFile_DoesntStack");
+			bool expected = true;
+
+			//Act
+			encryptionService.DecryptFile(@".\EncryptFile_DoesntStack");
+			bool actual = testContent == File.ReadAllText(@".\EncryptFile_DoesntStack");
+
+			//Assert
+			Assert.AreEqual(expected, actual);
+		}
+
 	}
 }
