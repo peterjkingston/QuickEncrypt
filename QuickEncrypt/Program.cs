@@ -31,7 +31,6 @@ namespace QuickEncrypt
 			{
 				container.Run(cryptoMode);
 			}
-			Console.ReadKey(true);
 		}
 	}
 }
