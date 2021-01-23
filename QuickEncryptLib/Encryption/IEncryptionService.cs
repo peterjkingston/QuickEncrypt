@@ -6,8 +6,8 @@ namespace QuickEncrypt.Encryption
 	public interface IEncryptionService
 	{
 		void EncryptFile(string filePath);
-		bool IsEncrypted(string filePath);
+		bool IsNotPlainText(string filePath);
 		void DecryptFile(string filePath);
-		Action<string> PrintFile(string filePath, IConsolePrinter consolePrinter);
+		void PrintFile(string filePath, IConsolePrinter consolePrinter);
 	}
 }

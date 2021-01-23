@@ -12,33 +12,38 @@ namespace QuickEncrypt.Encryption
 	public class EncryptionService : IEncryptionService
 	{
 		AesManaged _cryptoProvider = new AesManaged();
-		static string _quickEncryptFolder = Path.Combine(new string[]
-			{
-				Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-				"QuickEncrypt"
-			}
-		);
+		string _quickEncryptFolder { get; }
 
-		static string _keyFilePath = Path.Combine(new string[]
-			{
-				_quickEncryptFolder,
-				"MyQuickEncryptKey.dat"
-			}
-		);
+		string _keyFilePath { get; }
 
-		static string _IVFilePath = Path.Combine(new string[]
-			{
-				_quickEncryptFolder,
-				"MyQuickEncryptVector.dat"
-			}
-		);
+		string _IVFilePath { get; }
 
 		public EncryptionService()
 		{
+			_quickEncryptFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "QuickEncrypt");
+			_keyFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptKey.dat");
+			_IVFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptVector.dat");
+
 			//Create a key if necessary
 			if (!File.Exists(_keyFilePath))
 			{
 				PublishKey(); 
+			}
+
+			//Load the key
+			LoadKey();
+		}
+
+		public EncryptionService(string keyPath)
+		{
+			_quickEncryptFolder = keyPath;
+			_keyFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptKey.dat");
+			_IVFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptVector.dat");
+
+			//Create a key if necessary
+			if (!File.Exists(_keyFilePath))
+			{
+				PublishKey();
 			}
 
 			//Load the key
@@ -67,9 +72,9 @@ namespace QuickEncrypt.Encryption
 
 		public void EncryptFile(string filePath)
 		{
-			if (!IsEncrypted(filePath))
+			if (!IsNotPlainText(filePath))
 			{
-				ICryptoTransform encryptor = _cryptoProvider.CreateEncryptor();
+				ICryptoTransform encryptor = _cryptoProvider.CreateEncryptor(_cryptoProvider.Key, _cryptoProvider.IV);
 				using (MemoryStream ms = new MemoryStream())
 				{
 					using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
@@ -84,33 +89,55 @@ namespace QuickEncrypt.Encryption
 			}
 		}
 
-		public bool IsEncrypted(string filePath)
+		public bool IsNotPlainText(string filePath)
 		{
-			//Returns true if at least half the characters in the file are a letter or a number.
+			//Returns true if at least a fifth the characters in the file are a letter or a number.
 			string fileContent = File.ReadAllText(filePath);
 			long validCount = 0;
 			foreach (char character in fileContent)
 			{
 				if(
 					char.IsWhiteSpace(character) ||
-					char.IsLetterOrDigit(character) 
+					char.IsLetter(character) 
 				)
 				{
 					validCount++;
 				}
 			}
 
-			return validCount > fileContent.Length / 2;
+			return validCount < (fileContent.Length / 2);
 		}
 
 		public void DecryptFile(string filePath)
 		{
-			throw new NotImplementedException();
+			if (IsNotPlainText(filePath))
+			{
+				byte[] decrypted = Decrypt(File.ReadAllBytes(filePath));
+				File.WriteAllBytes(filePath, decrypted);
+			}
 		}
 
-		public Action<string> PrintFile(string filePath, IConsolePrinter consolePrinter)
+		private byte[] Decrypt(byte[] buffer)
 		{
-			throw new NotImplementedException();
+			byte[] decrypted;
+			ICryptoTransform decryptor = _cryptoProvider.CreateDecryptor(_cryptoProvider.Key, _cryptoProvider.IV);
+			using (MemoryStream ms = new MemoryStream(buffer))
+			{
+				using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+				{
+					using (StreamReader swDecrypt = new StreamReader(cs))
+					{
+						decrypted = Encoding.ASCII.GetBytes(swDecrypt.ReadToEnd());
+					}
+				}
+			}
+			return decrypted;
+		}
+
+		public void PrintFile(string filePath, IConsolePrinter consolePrinter)
+		{
+			byte[] decrypted = Decrypt(File.ReadAllBytes(filePath));
+			consolePrinter.Print(Encoding.ASCII.GetString(decrypted));
 		}
 	}
 }
