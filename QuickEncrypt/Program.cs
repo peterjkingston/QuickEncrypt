@@ -17,22 +17,8 @@ namespace QuickEncrypt
 		static void Main(string[] args)
 		{
 			var programContainer = Containerization.BuildContainer(args);
-			MainContainer container = new MainContainer();
-			CryptoMode cryptoMode = args.Contains("-d") ? 
-										CryptoMode.Decrypt : 
-										CryptoMode.Encrypt;
-			cryptoMode = args.Contains("-r") ?
-							CryptoMode.Read :
-							cryptoMode;
+			programContainer.Resolve<Application>();
 
-			if (args.Length > 0) 
-			{
-				container.RunSilent(args[0], cryptoMode);
-			}
-			else
-			{
-				container.Run(cryptoMode);
-			}
 		}
     }
 }

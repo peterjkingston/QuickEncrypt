@@ -24,6 +24,9 @@ namespace QuickEncryptLib.Encryption
                     "QuickEncrypt"
                     );
             }
+
+            KeyPath = Path.Combine(FolderPath, "MyQuickEncryptKey.dat");
+            VectorPath = Path.Combine(FolderPath, "MyQuickEncryptVector.dat");
         }
     }
 }

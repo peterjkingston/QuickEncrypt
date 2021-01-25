@@ -13,22 +13,16 @@ namespace QuickEncryptLib.Encryption
 	public class EncryptionService : IEncryptionService
 	{
 		AesManaged _cryptoProvider = new AesManaged();
-		string _quickEncryptFolder { get; }
-
-		string _keyFilePath { get; }
-
-		string _IVFilePath { get; }
+		IKeyInfo _keyinfo;
 		IConsolePrinter _consolePrinter;
 
 		public EncryptionService(IKeyInfo keyInfo, IConsolePrinter consolePrinter)
 		{
 			_consolePrinter = consolePrinter;
-			_quickEncryptFolder = keyInfo.FolderPath;
-			_keyFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptKey.dat");
-			_IVFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptVector.dat");
+			_keyinfo = keyInfo;
 
 			//Create a key if necessary
-			if (!File.Exists(_keyFilePath))
+			if (!File.Exists(_keyinfo.KeyPath))
 			{
 				PublishKey();
 			}
@@ -39,8 +33,8 @@ namespace QuickEncryptLib.Encryption
 
 		private void LoadKey()
 		{
-			_cryptoProvider.Key = File.ReadAllBytes(_keyFilePath);
-			_cryptoProvider.IV = File.ReadAllBytes(_IVFilePath);
+			_cryptoProvider.Key = File.ReadAllBytes(_keyinfo.KeyPath);
+			_cryptoProvider.IV = File.ReadAllBytes(_keyinfo.VectorPath);
 		}
 
 		private void PublishKey()
@@ -48,13 +42,13 @@ namespace QuickEncryptLib.Encryption
 			_cryptoProvider.GenerateKey();
 			_cryptoProvider.GenerateIV();
 
-			if (!Directory.Exists(_quickEncryptFolder))
+			if (!Directory.Exists(_keyinfo.FolderPath))
 			{
-				Directory.CreateDirectory(_quickEncryptFolder);
+				Directory.CreateDirectory(_keyinfo.FolderPath);
 			}
 
-			File.WriteAllBytes(_keyFilePath, _cryptoProvider.Key);
-			File.WriteAllBytes(_IVFilePath, _cryptoProvider.IV);
+			File.WriteAllBytes(_keyinfo.KeyPath, _cryptoProvider.Key);
+			File.WriteAllBytes(_keyinfo.VectorPath, _cryptoProvider.IV);
 		}
 
 		public void EncryptFile(string filePath)
