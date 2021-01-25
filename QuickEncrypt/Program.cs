@@ -9,7 +9,7 @@ namespace QuickEncrypt
 {
 	class Program
 	{
-		//SYNTAX: QuickEncrypt.exe <file path> [-e || -d || -r]
+		//SYNTAX: QuickEncrypt.exe <target file path> [-e || -d || -r]
 		//Options:
 		//  -e : encryption mode DEFAULT
 		//	-d : decryption mode
@@ -17,8 +17,7 @@ namespace QuickEncrypt
 		static void Main(string[] args)
 		{
 			var programContainer = Containerization.BuildContainer(args);
-			programContainer.Resolve<Application>();
-
+			programContainer.Resolve<IApplication>();
 		}
     }
 }

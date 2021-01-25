@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace QuickEncrypt
 {
+    //SYNTAX: QuickEncrypt.exe <target file path> [-e || -d || -r]
+    //Options:
+    //  -e : encryption mode DEFAULT
+    //	-d : decryption mode
+    //  -r : output the decrypted contents to console only
     public class SwitchInfo : ISwitchInfo
     {
         public SwitchInfo(string[] args)

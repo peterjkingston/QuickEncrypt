@@ -13,7 +13,7 @@ namespace QuickEncryptLib.Encryption
 
         public KeyInfo(string folderPath)
         {
-            if (folderPath == string.Empty || Directory.Exists(folderPath))
+            if (Directory.Exists(folderPath))
             {
                 FolderPath = folderPath;
             }
