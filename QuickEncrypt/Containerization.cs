@@ -16,7 +16,7 @@ namespace QuickEncrypt
             var builder = new ContainerBuilder();
 
             builder.RegisterType<Application>().As<IApplication>();
-            builder.RegisterInstance(new CryptoModeProvider(args)).As<ICryptoModeProvider>();
+            builder.RegisterInstance(new SwitchInfo(args)).As<ISwitchInfo>();
             builder.RegisterInstance(new KeyInfo("")).As<IKeyInfo>();
             builder.RegisterType<EncryptionService>().As<IEncryptionService>();
             builder.RegisterType<ConsolePrinter>().As<IConsolePrinter>();

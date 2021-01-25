@@ -90,12 +90,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Containerization.cs" />
-    <Compile Include="Application.cs" />
-    <Compile Include="IApplication.cs" />
-    <Compile Include="ISwitchInfo.cs" />
+    <Compile Include="ConsoleApp\Application.cs" />
+    <Compile Include="ConsoleApp\IApplication.cs" />
+    <Compile Include="ConsoleApp\ISwitchInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SwitchInfo.cs" />
+    <Compile Include="ConsoleApp\SwitchInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
