@@ -1,4 +1,4 @@
-﻿namespace QuickEncrypt.UserResponse
+﻿namespace QuickEncryptLib.UserResponse
 {
 	public interface IConsolePrinter
 	{

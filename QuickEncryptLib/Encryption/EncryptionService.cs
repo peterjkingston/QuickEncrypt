@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuickEncrypt.UserResponse;
+using QuickEncryptLib.UserResponse;
+using QuickEncryptLib.Encryption;
 
-namespace QuickEncrypt.Encryption
+namespace QuickEncryptLib.Encryption
 {
 	public class EncryptionService : IEncryptionService
 	{
@@ -17,26 +18,12 @@ namespace QuickEncrypt.Encryption
 		string _keyFilePath { get; }
 
 		string _IVFilePath { get; }
+		IConsolePrinter _consolePrinter;
 
-		public EncryptionService()
+		public EncryptionService(IKeyInfo keyInfo, IConsolePrinter consolePrinter)
 		{
-			_quickEncryptFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "QuickEncrypt");
-			_keyFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptKey.dat");
-			_IVFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptVector.dat");
-
-			//Create a key if necessary
-			if (!File.Exists(_keyFilePath))
-			{
-				PublishKey(); 
-			}
-
-			//Load the key
-			LoadKey();
-		}
-
-		public EncryptionService(string keyPath)
-		{
-			_quickEncryptFolder = keyPath;
+			_consolePrinter = consolePrinter;
+			_quickEncryptFolder = keyInfo.FolderPath;
 			_keyFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptKey.dat");
 			_IVFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptVector.dat");
 
@@ -134,10 +121,10 @@ namespace QuickEncrypt.Encryption
 			return decrypted;
 		}
 
-		public void PrintFile(string filePath, IConsolePrinter consolePrinter)
+		public void PrintFile(string filePath)
 		{
 			byte[] decrypted = Decrypt(File.ReadAllBytes(filePath));
-			consolePrinter.Print(Encoding.ASCII.GetString(decrypted));
+			_consolePrinter.Print(Encoding.ASCII.GetString(decrypted));
 		}
 	}
 }

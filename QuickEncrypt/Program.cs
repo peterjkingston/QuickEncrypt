@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
 
 namespace QuickEncrypt
 {
@@ -15,6 +16,7 @@ namespace QuickEncrypt
 		//  -r : output the decrypted contents to console only
 		static void Main(string[] args)
 		{
+			var programContainer = Containerization.BuildContainer(args);
 			MainContainer container = new MainContainer();
 			CryptoMode cryptoMode = args.Contains("-d") ? 
 										CryptoMode.Decrypt : 
@@ -32,5 +34,5 @@ namespace QuickEncrypt
 				container.Run(cryptoMode);
 			}
 		}
-	}
+    }
 }
