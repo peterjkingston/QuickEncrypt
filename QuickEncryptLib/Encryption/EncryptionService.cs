@@ -5,43 +5,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuickEncrypt.UserResponse;
+using QuickEncryptLib.UserResponse;
+using QuickEncryptLib.Encryption;
 
-namespace QuickEncrypt.Encryption
+namespace QuickEncryptLib.Encryption
 {
 	public class EncryptionService : IEncryptionService
 	{
 		AesManaged _cryptoProvider = new AesManaged();
-		string _quickEncryptFolder { get; }
+		IKeyInfo _keyinfo;
+		IConsolePrinter _consolePrinter;
 
-		string _keyFilePath { get; }
-
-		string _IVFilePath { get; }
-
-		public EncryptionService()
+		public EncryptionService(IKeyInfo keyInfo, IConsolePrinter consolePrinter)
 		{
-			_quickEncryptFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "QuickEncrypt");
-			_keyFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptKey.dat");
-			_IVFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptVector.dat");
+			_consolePrinter = consolePrinter;
+			_keyinfo = keyInfo;
 
 			//Create a key if necessary
-			if (!File.Exists(_keyFilePath))
-			{
-				PublishKey(); 
-			}
-
-			//Load the key
-			LoadKey();
-		}
-
-		public EncryptionService(string keyPath)
-		{
-			_quickEncryptFolder = keyPath;
-			_keyFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptKey.dat");
-			_IVFilePath = Path.Combine(_quickEncryptFolder, "MyQuickEncryptVector.dat");
-
-			//Create a key if necessary
-			if (!File.Exists(_keyFilePath))
+			if (!File.Exists(_keyinfo.KeyPath))
 			{
 				PublishKey();
 			}
@@ -52,8 +33,8 @@ namespace QuickEncrypt.Encryption
 
 		private void LoadKey()
 		{
-			_cryptoProvider.Key = File.ReadAllBytes(_keyFilePath);
-			_cryptoProvider.IV = File.ReadAllBytes(_IVFilePath);
+			_cryptoProvider.Key = File.ReadAllBytes(_keyinfo.KeyPath);
+			_cryptoProvider.IV = File.ReadAllBytes(_keyinfo.VectorPath);
 		}
 
 		private void PublishKey()
@@ -61,13 +42,13 @@ namespace QuickEncrypt.Encryption
 			_cryptoProvider.GenerateKey();
 			_cryptoProvider.GenerateIV();
 
-			if (!Directory.Exists(_quickEncryptFolder))
+			if (!Directory.Exists(_keyinfo.FolderPath))
 			{
-				Directory.CreateDirectory(_quickEncryptFolder);
+				Directory.CreateDirectory(_keyinfo.FolderPath);
 			}
 
-			File.WriteAllBytes(_keyFilePath, _cryptoProvider.Key);
-			File.WriteAllBytes(_IVFilePath, _cryptoProvider.IV);
+			File.WriteAllBytes(_keyinfo.KeyPath, _cryptoProvider.Key);
+			File.WriteAllBytes(_keyinfo.VectorPath, _cryptoProvider.IV);
 		}
 
 		public void EncryptFile(string filePath)
@@ -134,10 +115,10 @@ namespace QuickEncrypt.Encryption
 			return decrypted;
 		}
 
-		public void PrintFile(string filePath, IConsolePrinter consolePrinter)
+		public void PrintFile(string filePath)
 		{
 			byte[] decrypted = Decrypt(File.ReadAllBytes(filePath));
-			consolePrinter.Print(Encoding.ASCII.GetString(decrypted));
+			_consolePrinter.Print(Encoding.ASCII.GetString(decrypted));
 		}
 	}
 }

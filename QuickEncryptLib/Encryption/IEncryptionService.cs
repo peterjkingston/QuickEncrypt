@@ -1,13 +1,13 @@
-﻿using QuickEncrypt.UserResponse;
+﻿using QuickEncryptLib.UserResponse;
 using System;
 
-namespace QuickEncrypt.Encryption
+namespace QuickEncryptLib.Encryption
 {
 	public interface IEncryptionService
 	{
 		void EncryptFile(string filePath);
 		bool IsNotPlainText(string filePath);
 		void DecryptFile(string filePath);
-		void PrintFile(string filePath, IConsolePrinter consolePrinter);
+		void PrintFile(string filePath);
 	}
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickEncrypt.UserResponse
+namespace QuickEncryptLib.UserResponse
 {
 	public class ConsolePrinter : IConsolePrinter
 	{
