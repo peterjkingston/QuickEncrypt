@@ -13,16 +13,16 @@ namespace QuickEncryptLib.Encryption
 
         public KeyInfo(string folderPath)
         {
-            if (Directory.Exists(folderPath))
-            {
-                FolderPath = folderPath;
-            }
-            else
+            if (string.IsNullOrEmpty(folderPath))
             {
                 FolderPath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     "QuickEncrypt"
                     );
+            }
+            else
+            {
+                FolderPath = folderPath;
             }
 
             KeyPath = Path.Combine(FolderPath, "MyQuickEncryptKey.dat");

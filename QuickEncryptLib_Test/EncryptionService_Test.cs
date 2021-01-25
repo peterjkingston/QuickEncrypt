@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QuickEncrypt.Encryption;
+using QuickEncryptLib.Encryption;
+using QuickEncryptLib.UserResponse;
 using System;
 using System.IO;
 
@@ -9,25 +10,27 @@ namespace QuickEncryptLib_Test
 	public class EncryptionService_Test
 	{
 		const string KEY_TEST_PATH = @".\";
+		IKeyInfo _tempKeyInfo = new KeyInfo(@".\TempKey");
+		IKeyInfo _keyInfo = new KeyInfo(KEY_TEST_PATH);
+		IConsolePrinter _consolePrinter = new ConsolePrinter();
 
 		[TestMethod]
 		public void WritesKey_WhenNoKeyFound()
 		{
 			//Arrange
-			string folderPath = @".\TempKey";
-			if (!Directory.Exists(folderPath)) { Directory.CreateDirectory(folderPath); }
-			EncryptionService encryptionService = new EncryptionService(folderPath);
+			if (!Directory.Exists(_tempKeyInfo.FolderPath)) { Directory.CreateDirectory(_tempKeyInfo.FolderPath); }
+			EncryptionService encryptionService = new EncryptionService(_tempKeyInfo, _consolePrinter);
 			bool actual = false;
 			bool expected = true;
 
 			//Act
 			actual = File.Exists(Path.Combine(@".\TempKey", "MyQuickEncryptKey.dat")) &&
 					 File.Exists(Path.Combine(@".\TempKey", "MyQuickEncryptVector.dat"));
-			foreach(string fileName in Directory.GetFiles(folderPath))
+			foreach(string fileName in Directory.GetFiles(_tempKeyInfo.FolderPath))
 			{
 				File.Delete(fileName);
 			}
-			Directory.Delete(folderPath);
+			Directory.Delete(_tempKeyInfo.FolderPath);
 
 			//Assert
 			Assert.AreEqual(expected, actual);
@@ -38,7 +41,7 @@ namespace QuickEncryptLib_Test
 		{
 			//Arrange
 			File.WriteAllText(@".\IsNotPlainText_False_WhenPlainText", "Oooogabooga!");
-			EncryptionService encryptionService = new EncryptionService(KEY_TEST_PATH);
+			EncryptionService encryptionService = new EncryptionService(_keyInfo, _consolePrinter);
 			bool expected = false;
 
 			//Act
@@ -54,7 +57,7 @@ namespace QuickEncryptLib_Test
 		{
 			//Arrange
 			File.WriteAllText(@".\IsNotPlainText_True_WhenExplicitlyEncrypted", "Oooogabooga!");
-			EncryptionService encryptionService = new EncryptionService(KEY_TEST_PATH);
+			EncryptionService encryptionService = new EncryptionService(_keyInfo, _consolePrinter);
 			encryptionService.EncryptFile(@".\IsNotPlainText_True_WhenExplicitlyEncrypted");
 			bool expected = true;
 
@@ -71,7 +74,7 @@ namespace QuickEncryptLib_Test
 			//Arrange
 			string testContent = "Oooogabooga!";
 			File.WriteAllText(@".\Encrypt_PlainText", testContent);
-			EncryptionService encryptionService = new EncryptionService(KEY_TEST_PATH);
+			EncryptionService encryptionService = new EncryptionService(_keyInfo, _consolePrinter);
 			encryptionService.EncryptFile(@".\Encrypt_PlainText");
 			bool expected = false;
 
@@ -88,7 +91,7 @@ namespace QuickEncryptLib_Test
 			//Arrange
 			string testContent = "Oooogabooga!";
 			File.WriteAllText(@".\DecryptFile_ReadsEncryptedPlainText", testContent);
-			EncryptionService encryptionService = new EncryptionService(KEY_TEST_PATH);
+			EncryptionService encryptionService = new EncryptionService(_keyInfo, _consolePrinter);
 			encryptionService.EncryptFile(@".\DecryptFile_ReadsEncryptedPlainText");
 			bool expected = true;
 
@@ -106,7 +109,7 @@ namespace QuickEncryptLib_Test
 			//Arrange
 			string testContent = "Oooogabooga!";
 			File.WriteAllText(@".\EncryptFile_DoesntStack", testContent);
-			EncryptionService encryptionService = new EncryptionService(KEY_TEST_PATH);
+			EncryptionService encryptionService = new EncryptionService(_keyInfo, _consolePrinter);
 			encryptionService.EncryptFile(@".\EncryptFile_DoesntStack");
 			encryptionService.EncryptFile(@".\EncryptFile_DoesntStack");
 			bool expected = true;
