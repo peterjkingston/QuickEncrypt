@@ -1,12 +1,12 @@
 # QuickEncrypt ![QuickEncrypt Icon](https://github.com/peterjkingston/QuickEncrypt/raw/README-PK0003/QuickEncrypt/Resources/quickencrypt_32x32.ico) 
 ## Description
->A console application to encrypt and decrypt your plain text files! The content of encrypted files can be viewed in the conosle without writing over the file to decrypt.
+A console application to encrypt and decrypt your plain text files! The content of encrypted files can be viewed in the conosle without writing over the file to decrypt.
 
 ## Installation
->No current installers are available. Clone and build tested with VS2019, .NET Framework 4.8.
+No current installers are available. Clone and build tested with VS2019, .NET Framework 4.8.
 
 ## Usage Syntax
-`~\QuickEncrpt.exe filePath [-e || -d || -r]`
+`~\QuickEncrypt.exe filePath [-e || -d || -r]`
 |Switch Element Name|Syntactic Descriptor|Description|
 |:--|:-:|:--|
 |FilePath|`filePath`|The fully qualified path to the target file to encrypt or decrypt.|
