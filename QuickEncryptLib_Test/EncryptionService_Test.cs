@@ -12,7 +12,7 @@ namespace QuickEncryptLib_Test
 		const string KEY_TEST_PATH = @".\";
 		IKeyInfo _tempKeyInfo = new KeyInfo(@".\TempKey");
 		IKeyInfo _keyInfo = new KeyInfo(KEY_TEST_PATH);
-		IConsolePrinter _consolePrinter = new ConsolePrinter();
+		IContentPrinter _consolePrinter = new ConsolePrinter();
 
 		[TestMethod]
 		public void WritesKey_WhenNoKeyFound()

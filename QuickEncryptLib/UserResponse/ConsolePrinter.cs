@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuickEncryptLib.UserResponse
 {
-	public class ConsolePrinter : IConsolePrinter
+	public class ConsolePrinter : IContentPrinter
 	{
 		public void Print(string message)
 		{

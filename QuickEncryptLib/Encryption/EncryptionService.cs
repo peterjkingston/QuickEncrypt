@@ -14,9 +14,9 @@ namespace QuickEncryptLib.Encryption
 	{
 		AesManaged _cryptoProvider = new AesManaged();
 		IKeyInfo _keyinfo;
-		IConsolePrinter _consolePrinter;
+		IContentPrinter _consolePrinter;
 
-		public EncryptionService(IKeyInfo keyInfo, IConsolePrinter consolePrinter)
+		public EncryptionService(IKeyInfo keyInfo, IContentPrinter consolePrinter)
 		{
 			_consolePrinter = consolePrinter;
 			_keyinfo = keyInfo;

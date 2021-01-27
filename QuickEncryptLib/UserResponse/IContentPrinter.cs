@@ -1,6 +1,6 @@
 ﻿namespace QuickEncryptLib.UserResponse
 {
-	public interface IConsolePrinter
+	public interface IContentPrinter
 	{
 		void Print(string message);
 	}
