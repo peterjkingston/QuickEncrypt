@@ -18,3 +18,6 @@ No current installers are available. Clone and build tested with VS2019, .NET Fr
 - [ ] Basic security practices/features. Currently very bare.
 - [ ] Securely store keys in a remote store (like Microsoft OneDrive)
 - [ ] Wrap this function in a text editor. 
+
+## Disclaimer
+There are currently no releases of this software and it is not advised to be used for any security purpose at this time. I am not liable for any usage of this software in it's current state.'
