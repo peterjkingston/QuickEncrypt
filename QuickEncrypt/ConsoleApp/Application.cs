@@ -30,26 +30,33 @@ namespace QuickEncrypt
 
         public void Run()
         {
-            WelcomeMessage();
-            string filePath = RequestFile();
+            if(_switchInfo.ConsoleMode != ConsoleMode.Silent)
+			{
+                WelcomeMessage();
+                string filePath = RequestFile();
 
-            Action<string> transform = GetTransformMode();
-            //Let's let the encryption service check encryption status internally.
-            //if (File.Exists(filePath) && !_encryptionService.IsEncrypted(filePath))
-            if (File.Exists(filePath))
-            {
-                transform(filePath);
-                EncryptedMessage();
+                Action<string> transform = GetTransformMode();
+                //Let's let the encryption service check encryption status internally.
+                //if (File.Exists(filePath) && !_encryptionService.IsEncrypted(filePath))
+                if (File.Exists(filePath))
+                {
+                    transform(filePath);
+                    EncryptedMessage();
+                }
             }
+			else
+			{
+                RunSilent();
+			}
         }
 
-        internal void RunSilent(string filePath)
+        internal void RunSilent()
         {
             Action<string> transform = GetTransformMode();
 
-            if (File.Exists(filePath))
+            if (File.Exists(_switchInfo.TargetFile))
             {
-                transform(filePath);
+                transform(_switchInfo.TargetFile);
             }
         }
 

@@ -89,6 +89,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleApp\ConsoleMode.cs" />
     <Compile Include="Containerization.cs" />
     <Compile Include="ConsoleApp\Application.cs" />
     <Compile Include="ConsoleApp\IApplication.cs" />

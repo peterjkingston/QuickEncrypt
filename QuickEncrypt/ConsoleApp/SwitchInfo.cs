@@ -21,10 +21,21 @@ namespace QuickEncrypt
             Mode = args.Contains("-r") ?
                             CryptoMode.Read :
                             Mode;
-            TargetFile = args[0];
+            if (args.Length > 0)
+			{
+                TargetFile = args[0];
+                ConsoleMode = ConsoleMode.Silent;
+            }
+			else
+			{
+                ConsoleMode = ConsoleMode.ShowConsole;
+			}
+            
         }
 
         public string TargetFile { get; }
         public CryptoMode Mode { get; }
-    }
+
+		public ConsoleMode ConsoleMode { get; }
+	}
 }

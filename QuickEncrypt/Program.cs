@@ -17,7 +17,7 @@ namespace QuickEncrypt
 		static void Main(string[] args)
 		{
 			var programContainer = Containerization.BuildContainer(args);
-			programContainer.Resolve<IApplication>();
+			programContainer.Resolve<IApplication>().Run();
 		}
     }
 }
