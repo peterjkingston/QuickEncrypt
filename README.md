@@ -1,4 +1,4 @@
-# QuickEncrypt ![QuickEncrypt Icon](https://github.com/peterjkingston/QuickEncrypt/raw/README-PK0003/QuickEncrypt/Resources/quickencrypt_32x32.ico) 
+# QuickEncrypt ![QuickEncrypt Icon](https://github.com/peterjkingston/QuickEncrypt/raw/master/QuickEncrypt/Resources/quickencrypt_32x32.ico) 
 ## Description
 A console application to encrypt and decrypt your plain text files! The content of encrypted files can be viewed in the conosle without writing over the file to decrypt.
 
