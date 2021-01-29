@@ -15,7 +15,7 @@ namespace QuickEncrypt
     {
         public SwitchInfo(string[] args)
         {
-            CryptoMode Mode = args.Contains("-d") ?
+            Mode = args.Contains("-d") ?
                             CryptoMode.Decrypt :
                             CryptoMode.Encrypt;
             Mode = args.Contains("-r") ?
