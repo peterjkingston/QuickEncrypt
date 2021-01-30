@@ -21,11 +21,12 @@ namespace QuickEncrypt
 
         //const string ALREADY_ENCRYPTED_MSG = "This file is already encrypted!";
 
-        public Application(IOutputPrinter consolePrinter, IEncryptionService encryptionService, ISwitchInfo switchInfo)
+        public Application(IOutputPrinter consolePrinter, IInfoCollector infoCollector, IEncryptionService encryptionService, ISwitchInfo switchInfo)
         {
             _consolePrinter = consolePrinter;
             _encryptionService = encryptionService;
             _switchInfo = switchInfo;
+            _infoCollector = infoCollector;
         }
 
         public void Run()
@@ -92,12 +93,13 @@ namespace QuickEncrypt
         string RequestFile()
         {
             _consolePrinter.Print(REQUEST_FILE_MSG);
-            return Console.ReadLine();
+            return _infoCollector.CollectString();
         }
 
         IOutputPrinter _consolePrinter;
         IEncryptionService _encryptionService;
         ISwitchInfo _switchInfo;
+        IInfoCollector _infoCollector;
         
     }
 }

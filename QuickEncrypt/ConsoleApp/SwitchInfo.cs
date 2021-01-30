@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace QuickEncrypt
             Mode = args.Contains("-r") ?
                             CryptoMode.Read :
                             Mode;
-            if (args.Length > 0)
+            if (args.Length > 0 && args[0].IndexOfAny(Path.GetInvalidPathChars()) == -1)
 			{
                 TargetFile = args[0];
                 ConsoleMode = ConsoleMode.Silent;

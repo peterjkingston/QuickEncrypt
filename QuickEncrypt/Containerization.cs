@@ -17,6 +17,7 @@ namespace QuickEncrypt
 
             builder.RegisterType<Application>().As<IApplication>();
             builder.RegisterInstance(new SwitchInfo(args)).As<ISwitchInfo>();
+            builder.RegisterInstance(new ConsoleUIInfoCollector()).As<IInfoCollector>();
             builder.RegisterInstance(new KeyInfo("")).As<IKeyInfo>();
             builder.RegisterType<EncryptionService>().As<IEncryptionService>();
             builder.RegisterType<ConsolePrinter>().As<IOutputPrinter>();
