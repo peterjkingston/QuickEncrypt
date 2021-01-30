@@ -19,7 +19,7 @@ namespace QuickEncrypt
             builder.RegisterInstance(new SwitchInfo(args)).As<ISwitchInfo>();
             builder.RegisterInstance(new KeyInfo("")).As<IKeyInfo>();
             builder.RegisterType<EncryptionService>().As<IEncryptionService>();
-            builder.RegisterType<ConsolePrinter>().As<IConsolePrinter>();
+            builder.RegisterType<ConsolePrinter>().As<IOutputPrinter>();
 
             return builder.Build();
         }
