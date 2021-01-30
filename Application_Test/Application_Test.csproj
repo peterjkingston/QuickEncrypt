@@ -55,6 +55,7 @@
     <Compile Include="DummyClasses\DummySwitchInfo.cs" />
     <Compile Include="DummyClasses\OutputContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestedClasses\SwitchInfo_Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

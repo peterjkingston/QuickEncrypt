@@ -49,7 +49,7 @@ namespace Application_Test
 
             //Act
             app.Run();
-            bool actual = outputContainer.StoredMessage != testContent;
+            bool actual = outputContainer.StoredMessage != TESTCONTENT;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -72,7 +72,7 @@ namespace Application_Test
 
             //Act
             app.Run();
-            bool actual = outputContainer.StoredMessage != testContent;
+            bool actual = outputContainer.StoredMessage != TESTCONTENT;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -118,7 +118,7 @@ namespace Application_Test
 
             //Act
             app.Run();
-            bool actual = outputContainer.StoredMessage != testContent;
+            bool actual = outputContainer.StoredMessage != TESTCONTENT;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -141,17 +141,17 @@ namespace Application_Test
 
             //Act
             app.Run();
-            bool actual = outputContainer.StoredMessage != testContent; 
+            bool actual = outputContainer.StoredMessage != TESTCONTENT; 
 
             //Assert
             Assert.AreEqual(expected, actual);
         }
 
-        const string testContent = "Ooogabooga!";
+        const string TESTCONTENT = "Ooogabooga!";
 
-        private string GetAnyFile()
+        public static string GetAnyFile()
         {
-            string fileContent = testContent;
+            string fileContent = TESTCONTENT;
             string filepath = @".\AnyFile";
             if (!File.Exists(filepath))
             {
