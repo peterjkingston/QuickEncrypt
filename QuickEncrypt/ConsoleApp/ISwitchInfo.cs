@@ -4,5 +4,6 @@
     {
         CryptoMode Mode { get; }
         string TargetFile { get; }
-    }
+		ConsoleMode ConsoleMode { get; }
+	}
 }

@@ -14,9 +14,9 @@ namespace QuickEncryptLib.Encryption
 	{
 		AesManaged _cryptoProvider = new AesManaged();
 		IKeyInfo _keyinfo;
-		IContentPrinter _consolePrinter;
+		IOutputPrinter _consolePrinter;
 
-		public EncryptionService(IKeyInfo keyInfo, IContentPrinter consolePrinter)
+		public EncryptionService(IKeyInfo keyInfo, IOutputPrinter consolePrinter)
 		{
 			_consolePrinter = consolePrinter;
 			_keyinfo = keyInfo;
@@ -117,8 +117,15 @@ namespace QuickEncryptLib.Encryption
 
 		public void PrintFile(string filePath)
 		{
-			byte[] decrypted = Decrypt(File.ReadAllBytes(filePath));
-			_consolePrinter.Print(Encoding.ASCII.GetString(decrypted));
+            if (IsNotPlainText(filePath))
+            {
+				byte[] decrypted = Decrypt(File.ReadAllBytes(filePath));
+				_consolePrinter.Print(Encoding.ASCII.GetString(decrypted));
+			}
+            else
+            {
+				_consolePrinter.Print(File.ReadAllText(filePath));
+            }
 		}
 	}
 }

@@ -21,35 +21,43 @@ namespace QuickEncrypt
 
         //const string ALREADY_ENCRYPTED_MSG = "This file is already encrypted!";
 
-        public Application(IContentPrinter consolePrinter, IEncryptionService encryptionService, ISwitchInfo switchInfo)
+        public Application(IOutputPrinter consolePrinter, IInfoCollector infoCollector, IEncryptionService encryptionService, ISwitchInfo switchInfo)
         {
             _consolePrinter = consolePrinter;
             _encryptionService = encryptionService;
             _switchInfo = switchInfo;
+            _infoCollector = infoCollector;
         }
 
         public void Run()
         {
-            WelcomeMessage();
-            string filePath = RequestFile();
+            if(_switchInfo.ConsoleMode != ConsoleMode.Silent)
+			{
+                WelcomeMessage();
+                string filePath = RequestFile();
 
-            Action<string> transform = GetTransformMode();
-            //Let's let the encryption service check encryption status internally.
-            //if (File.Exists(filePath) && !_encryptionService.IsEncrypted(filePath))
-            if (File.Exists(filePath))
-            {
-                transform(filePath);
-                EncryptedMessage();
+                Action<string> transform = GetTransformMode();
+                //Let's let the encryption service check encryption status internally.
+                //if (File.Exists(filePath) && !_encryptionService.IsEncrypted(filePath))
+                if (File.Exists(filePath))
+                {
+                    transform(filePath);
+                    EncryptedMessage();
+                }
             }
+			else
+			{
+                RunSilent();
+			}
         }
 
-        internal void RunSilent(string filePath)
+        internal void RunSilent()
         {
             Action<string> transform = GetTransformMode();
 
-            if (File.Exists(filePath))
+            if (File.Exists(_switchInfo.TargetFile))
             {
-                transform(filePath);
+                transform(_switchInfo.TargetFile);
             }
         }
 
@@ -85,12 +93,13 @@ namespace QuickEncrypt
         string RequestFile()
         {
             _consolePrinter.Print(REQUEST_FILE_MSG);
-            return Console.ReadLine();
+            return _infoCollector.CollectString();
         }
 
-        IContentPrinter _consolePrinter;
+        IOutputPrinter _consolePrinter;
         IEncryptionService _encryptionService;
         ISwitchInfo _switchInfo;
+        IInfoCollector _infoCollector;
         
     }
 }

@@ -12,7 +12,7 @@ namespace QuickEncryptLib_Test
 		const string KEY_TEST_PATH = @".\";
 		IKeyInfo _tempKeyInfo = new KeyInfo(@".\TempKey");
 		IKeyInfo _keyInfo = new KeyInfo(KEY_TEST_PATH);
-		IContentPrinter _consolePrinter = new ConsolePrinter();
+		IOutputPrinter _consolePrinter = new ConsolePrinter();
 
 		[TestMethod]
 		public void WritesKey_WhenNoKeyFound()
@@ -122,5 +122,49 @@ namespace QuickEncryptLib_Test
 			Assert.AreEqual(expected, actual);
 		}
 
+		[TestMethod]
+		public void PrintFile_PrintsToOutputBuffer_Encrypted()
+        {
+			//Arrange
+			string filePath = @".\AlwaysEncrypted";
+			string testContent = "Oooogabooga!";
+			OutputContainer outputContainer = new OutputContainer();
+			EncryptionService encryptionService = new EncryptionService(_keyInfo, outputContainer);
+			if (!File.Exists(filePath))
+            {
+				File.WriteAllText(filePath, testContent);
+				encryptionService.EncryptFile(filePath);
+			}
+			bool expected = true;
+
+			//Act
+			encryptionService.PrintFile(filePath);
+			bool actual = outputContainer.StoredMessage == testContent;
+
+			//Assert
+			Assert.AreEqual(expected, actual);
+        }
+
+		[TestMethod]
+		public void PrintFile_PrintsToOutputBuffer_Decrypted()
+		{
+			//Arrange
+			string filePath = @".\AlwaysDecrypted";
+			string testContent = "Oooogabooga!";
+			OutputContainer outputContainer = new OutputContainer();
+			EncryptionService encryptionService = new EncryptionService(_keyInfo, outputContainer);
+			if (!File.Exists(filePath))
+			{
+				File.WriteAllText(filePath, testContent);
+			}
+			bool expected = true;
+
+			//Act
+			encryptionService.PrintFile(filePath);
+			bool actual = outputContainer.StoredMessage == testContent;
+
+			//Assert
+			Assert.AreEqual(expected, actual);
+		}
 	}
 }

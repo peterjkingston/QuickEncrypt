@@ -1,4 +1,4 @@
-# QuickEncrypt ![QuickEncrypt Icon](https://github.com/peterjkingston/QuickEncrypt/raw/README-PK0003/QuickEncrypt/Resources/quickencrypt_32x32.ico) 
+# QuickEncrypt ![QuickEncrypt Icon](https://github.com/peterjkingston/QuickEncrypt/raw/master/QuickEncrypt/Resources/quickencrypt_32x32.ico) 
 ## Description
 A console application to encrypt and decrypt your plain text files! The content of encrypted files can be viewed in the conosle without writing over the file to decrypt.
 
@@ -18,3 +18,6 @@ No current installers are available. Clone and build tested with VS2019, .NET Fr
 - [ ] Basic security practices/features. Currently very bare.
 - [ ] Securely store keys in a remote store (like Microsoft OneDrive)
 - [ ] Wrap this function in a text editor. 
+
+## Disclaimer
+There are currently no releases of this software and it is not advised to be used for any security purpose at this time. I am not liable for any usage of this software in it's current state.'

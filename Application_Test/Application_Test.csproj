@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4E83DC23-C89B-4463-A9FB-92ED526884AC}</ProjectGuid>
+    <ProjectGuid>{4044859B-B564-4CF4-B03C-2DEB540ED30E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QuickEncryptLib_Test</RootNamespace>
-    <AssemblyName>QuickEncryptLib_Test</AssemblyName>
+    <RootNamespace>Application_Test</RootNamespace>
+    <AssemblyName>Application_Test</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -49,9 +49,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EncryptionService_Test.cs" />
-    <Compile Include="OutputContainer.cs" />
+    <Compile Include="TestedClasses\Application_Test.cs" />
+    <Compile Include="DummyClasses\DummyEncryptionService.cs" />
+    <Compile Include="DummyClasses\DummyInfoCollector.cs" />
+    <Compile Include="DummyClasses\DummySwitchInfo.cs" />
+    <Compile Include="DummyClasses\OutputContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestedClasses\SwitchInfo_Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -61,7 +65,12 @@
       <Project>{73dbda8e-369a-447c-8381-850262cfa926}</Project>
       <Name>QuickEncryptLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\QuickEncrypt\QuickEncrypt.csproj">
+      <Project>{b1487210-6db1-49f4-aafd-d14fd8e56ac2}</Project>
+      <Name>QuickEncrypt</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
