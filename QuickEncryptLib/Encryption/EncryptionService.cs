@@ -53,7 +53,7 @@ namespace QuickEncryptLib.Encryption
 
 		public void EncryptFile(string filePath)
 		{
-			if (!IsNotPlainText(filePath))
+			if (IsPlainText(filePath))
 			{
 				ICryptoTransform encryptor = _cryptoProvider.CreateEncryptor(_cryptoProvider.Key, _cryptoProvider.IV);
 				using (MemoryStream ms = new MemoryStream())
@@ -70,7 +70,7 @@ namespace QuickEncryptLib.Encryption
 			}
 		}
 
-		public bool IsNotPlainText(string filePath)
+		public bool IsPlainText(string filePath)
 		{
 			//Returns true if at least a fifth the characters in the file are a letter or a number.
 			string fileContent = File.ReadAllText(filePath);
@@ -86,12 +86,15 @@ namespace QuickEncryptLib.Encryption
 				}
 			}
 
-			return validCount < (fileContent.Length / 2);
+			//Quick fix, on from IsNotPlainText, changed to IsPlainText
+			//Added ! to result to flip
+			//PK 1/31/2021
+			return !(validCount < (fileContent.Length / 2));
 		}
 
 		public void DecryptFile(string filePath)
 		{
-			if (IsNotPlainText(filePath))
+			if (!IsPlainText(filePath))
 			{
 				byte[] decrypted = Decrypt(File.ReadAllBytes(filePath));
 				File.WriteAllBytes(filePath, decrypted);
@@ -117,7 +120,7 @@ namespace QuickEncryptLib.Encryption
 
 		public void PrintFile(string filePath)
 		{
-            if (IsNotPlainText(filePath))
+            if (!IsPlainText(filePath))
             {
 				byte[] decrypted = Decrypt(File.ReadAllBytes(filePath));
 				_consolePrinter.Print(Encoding.ASCII.GetString(decrypted));
