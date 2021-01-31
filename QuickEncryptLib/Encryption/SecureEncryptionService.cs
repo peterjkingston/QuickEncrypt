@@ -10,9 +10,9 @@ namespace QuickEncryptLib.Encryption
     public class SecureEncryptionService : IEncryptionService
     {
         private IKeyProvider _keyProvider;
-        private IContentPrinter _printer;
+        private IOutputPrinter _printer;
 
-        public SecureEncryptionService(IKeyProvider keyProvider, IContentPrinter printer)
+        public SecureEncryptionService(IKeyProvider keyProvider, IOutputPrinter printer)
         {
             _keyProvider = keyProvider;
             _printer = printer;
