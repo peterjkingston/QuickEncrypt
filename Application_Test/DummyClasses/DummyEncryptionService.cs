@@ -30,7 +30,7 @@ namespace Application_Test
             FileEncrypted = true;
         }
 
-        public bool IsNotPlainText(string filePath)
+        public bool IsPlainText(string filePath)
         {
             //Not for testing with this class.
             throw new NotImplementedException();

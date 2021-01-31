@@ -1,6 +1,6 @@
 ﻿namespace QuickEncryptLib.Encryption
 {
-    internal interface IEncryptor
+    public interface IEncryptor
     {
         byte[] Transform(byte[] byteData);
     }

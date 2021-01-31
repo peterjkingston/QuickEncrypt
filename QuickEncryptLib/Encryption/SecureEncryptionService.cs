@@ -20,7 +20,7 @@ namespace QuickEncryptLib.Encryption
 
         public void DecryptFile(string filePath)
         {
-            if (File.Exists(filePath))
+            if (File.Exists(filePath) && !IsPlainText(filePath))
             {
                 IDecryptor decryptor = _keyProvider.GetDecryptor();
                 byte[] decryptedbytes = decryptor.Transform(File.ReadAllBytes(filePath));
@@ -30,7 +30,7 @@ namespace QuickEncryptLib.Encryption
 
         public void EncryptFile(string filePath)
         {
-            if (File.Exists(filePath) && !IsNotPlainText(filePath))
+            if (File.Exists(filePath) && IsPlainText(filePath))
             {
                 IEncryptor encryptor = _keyProvider.GetEncryptor();
                 byte[] encryptedBytes = encryptor.Transform(File.ReadAllBytes(filePath));
@@ -38,7 +38,7 @@ namespace QuickEncryptLib.Encryption
             }
         }
 
-        public bool IsNotPlainText(string filePath)
+        public bool IsPlainText(string filePath)
         {
             bool result = false;
             if (File.Exists(filePath))
@@ -51,16 +51,23 @@ namespace QuickEncryptLib.Encryption
                 }
                 result = validCount < (fileContent.Length / 2);
             }
-            return result;
+            //Quick fix, on from IsNotPlainText, changed to IsPlainText
+            //Added ! to result to flip
+            //PK 1/31/2021
+            return !result;
         }
 
         public void PrintFile(string filePath)
         {
-            if (File.Exists(filePath))
+            if (File.Exists(filePath) && !IsPlainText(filePath))
             {
                 IDecryptor decryptor = _keyProvider.GetDecryptor();
                 byte[] decryptedBytes = decryptor.Transform(File.ReadAllBytes(filePath));
                 _printer.Print(Encoding.ASCII.GetString(decryptedBytes));
+            }
+            else
+            {
+                _printer.Print(File.ReadAllText(filePath));
             }
         }
     }

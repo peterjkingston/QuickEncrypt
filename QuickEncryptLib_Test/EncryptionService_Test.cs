@@ -37,15 +37,15 @@ namespace QuickEncryptLib_Test
 		}
 
 		[TestMethod]
-		public void IsNotPlainText_False_WhenPlainText()
+		public void IsPlainText_True_WhenPlainText()
 		{
 			//Arrange
 			File.WriteAllText(@".\IsNotPlainText_False_WhenPlainText", "Oooogabooga!");
 			EncryptionService encryptionService = new EncryptionService(_keyInfo, _consolePrinter);
-			bool expected = false;
+			bool expected = true;
 
 			//Act
-			bool actual = encryptionService.IsNotPlainText(@".\IsNotPlainText_False_WhenPlainText");
+			bool actual = encryptionService.IsPlainText(@".\IsNotPlainText_False_WhenPlainText");
 
 			//Assert
 			Assert.AreEqual(expected, actual);
@@ -53,16 +53,16 @@ namespace QuickEncryptLib_Test
 
 
 		[TestMethod]
-		public void IsNotPlainText_True_WhenExplicitlyEncrypted()
+		public void IsPlainText_False_WhenExplicitlyEncrypted()
 		{
 			//Arrange
 			File.WriteAllText(@".\IsNotPlainText_True_WhenExplicitlyEncrypted", "Oooogabooga!");
 			EncryptionService encryptionService = new EncryptionService(_keyInfo, _consolePrinter);
 			encryptionService.EncryptFile(@".\IsNotPlainText_True_WhenExplicitlyEncrypted");
-			bool expected = true;
+			bool expected = false;
 
 			//Act
-			bool actual = encryptionService.IsNotPlainText(@".\IsNotPlainText_True_WhenExplicitlyEncrypted");
+			bool actual = encryptionService.IsPlainText(@".\IsNotPlainText_True_WhenExplicitlyEncrypted");
 
 			//Assert
 			Assert.AreEqual(expected, actual);
