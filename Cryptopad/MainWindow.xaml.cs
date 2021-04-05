@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuickEncrypt.ViewPorts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,16 @@ namespace Cryptopad
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IApplicationViewPort
+    public partial class MainWindow : Window, IApplicationViewport
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public void DisplayFile()
+        {
+            throw new NotImplementedException();
         }
     }
 }
