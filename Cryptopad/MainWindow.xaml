@@ -1,0 +1,42 @@
+﻿<Window x:Class="Cryptopad.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cryptopad"
+        mc:Ignorable="d"
+        Title="Cryptopad" Height="450" Width="800">
+    <Grid Background="#ddd">
+        <Menu HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top" Width="35">
+            <MenuItem Header="_File...">
+                <MenuItem Header="Open" Command="Open"/>
+                <MenuItem Header="Exit" Command="Exit"/>
+            </MenuItem>
+        </Menu>
+        <Menu HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="41" Margin="50,10,0,0">
+            <MenuItem Header="_Edit...">
+                <MenuItem Command="Copy"/>
+                <MenuItem Command="Cut"/>
+                <MenuItem Command="Paste"/>
+                <MenuItem Command="SelectAll"/>
+            </MenuItem>
+        </Menu>
+        <Menu HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="56" Margin="96,10,0,0">
+            <MenuItem Header="_Format...">
+                
+            </MenuItem>
+        </Menu>
+        <Menu HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="45" Margin="157,10,0,0">
+            <MenuItem Header="_View...">
+            </MenuItem>
+        </Menu>
+        <Menu HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="45" Margin="157,10,0,0">
+            <MenuItem Header="_Help...">
+                
+            </MenuItem>
+        </Menu>
+        <RadioButton Content="Encrypted" HorizontalAlignment="Left" Margin="699,13,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="357" Margin="10,36,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="773"/>
+        <StatusBar HorizontalAlignment="Left" Height="18" Margin="10,393,0,0" VerticalAlignment="Top" Width="773"/>
+    </Grid>
+</Window>
