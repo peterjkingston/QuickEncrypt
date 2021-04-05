@@ -1,4 +1,4 @@
-<h1>QuickEncrypt<img src="https://github.com/peterjkingston/QuickEncrypt/raw/master/QuickEncrypt/Resources/quickencrypt_32x32.ico" alt="QuickEncrypt Icon"/></h1>  
+<h1 id="project-title">QuickEncrypt<img src="https://github.com/peterjkingston/QuickEncrypt/raw/master/QuickEncrypt/Resources/quickencrypt_32x32.ico" alt="QuickEncrypt Icon"/></h1>  
 <h2>Description</h2>
 <p>A console application to encrypt and decrypt your plain text files! The content of encrypted files can be viewed in the conosle without writing over the file to decrypt.</p>
 
