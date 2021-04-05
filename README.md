@@ -7,6 +7,7 @@
 
 <h2>Usage Syntax</h2>
 <code>~\QuickEncrypt.exe filePath [-e || -d || -r]</code>
+<br/>
 <table>
     <tr>
         <td>Switch Element Name</td><td>Syntactic Descriptor</td><td>Description</td>
